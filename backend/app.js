@@ -47,6 +47,7 @@ app.use(
 
 // Routes
 app.use("/test", require("./routes/test"));
+app.use("/user", require("./routes/user"));
 
 // Run server
 app.listen(PORT, () => {

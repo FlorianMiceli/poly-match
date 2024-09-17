@@ -1,4 +1,4 @@
 import { mergeQueryKeys } from '@lukemorales/query-key-factory'
-import { example } from './example'
+import { user } from './user'
 
-export const queries = mergeQueryKeys(example)
+export const queries = mergeQueryKeys(user)

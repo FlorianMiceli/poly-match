@@ -1,12 +1,14 @@
 <script setup lang='ts'>
 import { Loader2 } from 'lucide-vue-next'
+
 defineProps<{
     loading: boolean
     label: string
 }>()
-defineEmits<{
-    click: () => void
-}>()
+
+const emit = defineEmits(['click'])
+
+const click = () => emit('click')
 </script>
 <template>
     <Button :disabled="loading" @click="click">
