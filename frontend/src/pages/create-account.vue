@@ -35,7 +35,6 @@ watch(createAccountData, (data) => {if (data) router.push('/user')})
       <div class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
         <h1>Créer un compte</h1>
       </div>
-      <Button @click="router.push('/user')">Test</Button>
       <AutoForm
         class="space-y-4"
         :form="form"

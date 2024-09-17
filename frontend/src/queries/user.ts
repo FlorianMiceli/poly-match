@@ -9,8 +9,10 @@ export const user = createQueryKeys('user', {
     queryFn: async () => {
       const userStore = useUserStore()
       const response = await apiPost("user/create", unref(data))
-      userStore.user = response.data[0]
-      if (response.status) return true
+      if (response.status) { 
+        userStore.user = response.data[0]
+        return true
+      }
       return false
     }
   })

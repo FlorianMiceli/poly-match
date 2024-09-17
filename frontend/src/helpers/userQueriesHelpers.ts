@@ -8,8 +8,8 @@ export const createAccount = (data: Ref<UserCreationForm | null>) => {
         // @ts-expect-error reactivity ts error
         ...queries.user.create_account(data),
         throwOnError: () => {
-            error("Erreur lors de la création du compte", "Veuillez réessayer plus tard")
-            return false
+            error("Erreur","Erreur lors de la création du compte, réessayez plus tard")
+            return true
         },
         enabled: () => data.value !== null
     })
