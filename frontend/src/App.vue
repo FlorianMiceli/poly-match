@@ -3,7 +3,7 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
 </script>
 
 <template>
-    <div class="app-container">
+    <div vaul-drawer-wrapper class="app-container">
         <header class="header">
             <div class="app-name">PolyMatch✨</div>
         </header>
@@ -23,6 +23,7 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #ffffff;
 }
 
 .header {

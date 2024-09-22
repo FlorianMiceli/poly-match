@@ -1,16 +1,30 @@
 <script setup lang='ts'>
+import { getProfilePicture } from '@/helpers/userQueriesHelpers';
 import { User } from '@/types/global_types';
+import { Plus } from 'lucide-vue-next';
+import { DrawerTrigger } from 'vaul-vue'
 
 defineProps<{
     user_data: User 
 }>()
 
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+// const { data: profilePicture } = getProfilePicture('f_mcl')
+
+
 </script>
 <template>
+    <!-- TODO -->
+    <!-- {{ profilePicture }}
+    <img v-if="profilePicture" :src="profilePicture" alt="JPEG Image">
+    <div>
+        <iframe v-if="profilePicture" :src="profilePicture" width="100%" height="500px"></iframe>
+    </div> -->
+
+    <!-- User Info -->
     <div class="flex items-center">
         <Avatar class="mr-4 w-16 h-16">
-            <AvatarImage src="https://scontent-cdg4-1.cdninstagram.com/v/t51.2885-19/448021750_2038560433206788_1640816194731066395_n.jpg?stp=dst-jpg_s150x150&_nc_ht=scontent-cdg4-1.cdninstagram.com&_nc_cat=108&_nc_ohc=XFnKR_1xuKYQ7kNvgHscTAc&_nc_gid=92eff89855104a70b46fdc617f03b52b&edm=AIhb9MIBAAAA&ccb=7-5&oh=00_AYAD2UP9PBE9-4h7XuxGMEtLOGs0-wqNJZjMKXHCxHYPZg&oe=66EFAC45&_nc_sid=8aafe2" alt="@radix-vue" />
+            <AvatarImage src="" alt="@radix-vue" />
             <AvatarFallback>{{ user_data.first_name[0].toUpperCase() }}{{ user_data.last_name[0].toUpperCase() }}</AvatarFallback>
         </Avatar>
         <div class="text-xl font-medium">
@@ -20,4 +34,56 @@ const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str
             </div>
         </div>
     </div>
+
+    <!-- Top Artistes -->
+    <Card class="w-full mt-4">
+        <CardHeader>
+            <CardTitle>Top Artistes</CardTitle>
+            <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
+        </CardHeader>
+        <CardContent>
+            ksjdhfqsdfj
+        </CardContent>
+    </Card>
+
+    <!-- Top Titres -->
+    <Card class="w-full mt-4">
+        <CardHeader>
+            <CardTitle>Top Titres</CardTitle>
+            <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
+        </CardHeader>
+        <CardContent>
+            ksjdhfqsdfj
+        </CardContent>
+
+        <!-- TODO -->
+        <CardFooter v-if="true">
+            <Drawer>
+                <DrawerTrigger as-child>
+                    <Button class="w-full">
+                        <Plus class="mr-2 h-4 w-4" /> Ajouter un artiste
+                    </Button>
+                </DrawerTrigger>
+                <DrawerContent>
+                    <DrawerHeader>
+                        <DrawerTitle>Ajouter une musique</DrawerTitle>
+                    </DrawerHeader>
+                    <div class="p-4">
+                        <AddSongsSearchBar @add-song="console.log($event)" />
+                    </div>
+                </DrawerContent>
+            </Drawer>
+        </CardFooter>
+    </Card>
+
+    <!-- Next Events -->
+    <Card class="w-full mt-4">
+        <CardHeader>
+            <CardTitle>Prochains concerts</CardTitle>
+            <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
+        </CardHeader>
+        <CardContent>
+            ksjdhfqsdfj
+        </CardContent>
+    </Card>
 </template>

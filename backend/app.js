@@ -48,6 +48,7 @@ app.use(
 // Routes
 app.use("/test", require("./routes/test"));
 app.use("/user", require("./routes/user"));
+app.use("/music", require("./routes/music"));
 
 // Run server
 app.listen(PORT, () => {

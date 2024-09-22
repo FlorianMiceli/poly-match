@@ -14,3 +14,13 @@ export const createAccount = (data: Ref<UserCreationForm | null>) => {
         enabled: () => data.value !== null
     })
 }
+
+export const getProfilePicture = (instagramUsername: string) => {
+    return useQuery({
+        ...queries.user.get_profile_picture(instagramUsername),
+        throwOnError: () => {
+            error("Erreur","Erreur lors de la récupération de l'image de profil, réessayez plus tard")
+            return true
+        },
+    })
+}

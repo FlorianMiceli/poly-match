@@ -18,3 +18,31 @@ export type UserCreationForm = {
     email: string
     password: string
 }
+
+// MusicBrainz API types
+
+export type Song = {
+    id: uuid
+    title: string
+    'artist-credit': ArtistCredit[]
+    releases: Release[]
+}
+
+export type ArtistCredit = {
+    name: string
+    artist: Artist
+}
+
+export type Artist = {
+    id: uuid
+    name: string
+}
+
+export type Release = {
+    id: uuid
+    title: string
+    date: string
+    'artist-credit': ArtistCredit[]
+}
+
+

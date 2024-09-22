@@ -13,6 +13,7 @@ const click = () => emit('click')
 <template>
     <Button :disabled="loading" @click="click">
         <Loader2 v-if="loading" class="w-4 h-4 mr-2 animate-spin" />
+        <slot v-else name="icon" />
         {{ label }}
     </Button>
 </template>
