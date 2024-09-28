@@ -8,7 +8,7 @@ const userStore = useUserStore();
         <div class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
             <h1>Mon compte</h1>
         </div>
-        <Account :user="userStore.user" v-if="userStore.user" />
+        <Account :user="userStore.user" v-if="userStore.user" :isUserProfile="true"/>
         <div v-else>
             <div class="flex flex-col space-y-3">
                 <Skeleton class="h-[125px] rounded-xl" />

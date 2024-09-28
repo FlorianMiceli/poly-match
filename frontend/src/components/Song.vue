@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { getReleaseCover } from '@/helpers/musicQueriesHelper';
-import { Song } from '@/types/global_types';
+import { SpotifyTrack } from '@/types/global_types';
 import { CircleX } from 'lucide-vue-next';
 import { Loader2 } from 'lucide-vue-next'
 
-const props = defineProps<{
-    song: Song
+defineProps<{
+    song: SpotifyTrack
     removeable: boolean
 }>()
 
-const { data: releaseCoverUrl } = getReleaseCover(props.song)
-
-const removeSong = (song: Song) => {
+const removeSong = (song: SpotifyTrack) => {
     console.log(song)
 }
 </script>
@@ -20,7 +17,7 @@ const removeSong = (song: Song) => {
 
         <!-- Song Cover -->
         <Avatar class="w-8 h-8 ml-1">
-            <AvatarImage :src="releaseCoverUrl || ''" alt="Song Cover" />
+            <AvatarImage :src="song.album.images[song.album.images.length - 1].url || ''" alt="Song Cover" />
             <AvatarFallback>
                 <Loader2 class="w-4 h-4 animate-spin" />
             </AvatarFallback>
@@ -28,9 +25,8 @@ const removeSong = (song: Song) => {
 
         <!-- Song Title and Artist -->
         <div class="flex flex-col">
-            <!-- TODO -->
-            <span class="text-sm" :class="{ 'pr-2': !removeable }">{{ song.title }}</span>
-            <span class="text-xs text-gray-500">{{ song["artist-credit"][0].name }}</span>
+            <span class="text-sm" :class="{ 'pr-2': !removeable }">{{ song.name }}</span>
+            <span class="text-xs text-gray-500">{{ song.artists[0].name }}</span>
         </div>
 
         <!-- Button to remove the song from the list -->

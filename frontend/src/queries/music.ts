@@ -19,5 +19,5 @@ export const music = createQueryKeys("music", {
             const song_url = res.data.images[0].thumbnails[250];
             return song_url;
         },
-    }),
+    })
 });

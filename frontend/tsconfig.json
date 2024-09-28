@@ -17,7 +17,7 @@
             "@/*": ["./src/*"]
         },
         "resolveJsonModule": true,
-        "types": ["vite/client", "node", "unplugin-vue-router/client"],
+        "types": ["vite/client", "node", "unplugin-vue-router/client", "spotify-api"],
         "allowJs": true,
         "strictNullChecks": true,
         "noUnusedLocals": true,

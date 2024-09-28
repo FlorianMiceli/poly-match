@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
+import { getAccessToken } from './helpers/spotifyQueriesHelpers';
+getAccessToken()
 </script>
 
 <template>

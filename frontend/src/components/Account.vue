@@ -6,6 +6,7 @@ import { DrawerTrigger } from "vaul-vue";
 
 const props = defineProps<{
     user: User;
+    isUserProfile: boolean;
 }>();
 
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -75,7 +76,7 @@ const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
                         v-for="song in profile.fav_songs" 
                         :key="song.id" 
                         :song="song" 
-                        :removeable="false" 
+                        :removeable="isUserProfile" 
                     />
                 </div>
                 <p v-else class="text-gray-500">Aucun titre favori ajouté</p>
