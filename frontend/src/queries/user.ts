@@ -2,7 +2,6 @@ import { apiGet, apiPost } from '@/api'
 import { useUserStore } from '@/stores/user'
 import { UserCreationForm } from '@/types/global_types'
 import { createQueryKeys } from '@lukemorales/query-key-factory'
-import axios from 'axios'
 
 export const user = createQueryKeys('user', {
   create_account: (data: UserCreationForm) => ({
@@ -34,6 +33,13 @@ export const user = createQueryKeys('user', {
       const res = 'data:image/png;base64,' + response.data.image
       console.log(res)
       return res
+    }
+  }),
+  profile: (user_id: string) => ({
+    queryKey: [user_id],
+    queryFn: async () => {
+      const response = await apiGet('user/profile', { user_id })
+      return response.data
     }
   })
 })

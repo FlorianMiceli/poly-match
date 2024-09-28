@@ -51,7 +51,8 @@ router.post('/create', async (req, res) => {
                     last_name: req.body.last_name,
                     instagram_username: req.body.instagram_username,
                     school_year: req.body.school_year,
-                    school_major: req.body.school_major
+                    school_major: req.body.school_major,
+                    profile: {}
                 },
             ])
             .select()
@@ -63,6 +64,89 @@ router.post('/create', async (req, res) => {
         res.status(500).send({ error_message: error.message });
     }
 })
+
+
+/**
+ * @swagger
+ * /user/profile:
+ *   get:
+ *     description: Get the profile of a user
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - in: query
+ *         name: user_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user
+ *     responses:
+ *       200:
+ *         description: User profile
+ *       500:
+ *         description: Server error
+ */
+router.get('/profile', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+
+        if (!user_id) {
+            return res.status(400).send({ error_message: "User ID is required" });
+        }
+
+        const { data, error } = await supabase
+            .from('User')
+            .select('profile')
+            .eq('id', user_id)
+            .single();
+
+        if (error) throw error;
+
+        res.send(data.profile);
+    } catch (error) {
+        console.error('Error /user/profile:', error);
+        res.status(500).send({ error_message: error.message });
+    }
+});
+
+
+
+/**
+ * @swagger
+ * /user/updateProfile:
+ *   get:
+ *     description: Update the profile of a user
+ *     tags:
+ *       - User
+ *     requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                profile:
+ *                  type: object
+ *                user_id:
+ *                  type: string
+ */
+router.post('/updateProfile', async (req, res) => {
+    try {
+        const { profile, user_id } = req.body;
+
+        const { data, error } = await supabase
+            .from('User')
+            .update({ profile: profile })
+            .eq('id', user_id)
+            .select()
+
+        if (error) throw error;
+
+        res.send(data);
+    } catch (error) {
+        console.error('Error /user/updateProfile :', error);
+        res.status(500).send({ error_message: error.message });
+    }
+});
 
 /**
  * @swagger

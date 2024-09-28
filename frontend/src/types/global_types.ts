@@ -7,6 +7,12 @@ export type User = {
     instagram_username: string
     school_year: string
     school_major: string
+    profile: UserProfile
+}
+
+export type UserProfile = {
+    fav_songs?: Song[]
+    fav_artists?: Artist[]
 }
 
 export type UserCreationForm = {

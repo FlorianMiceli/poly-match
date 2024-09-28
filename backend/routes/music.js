@@ -30,4 +30,34 @@ router.get('/song', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /music/releaseCover:
+ *   get:
+ *     description: Get the cover of a release 
+ *     tags:
+ *       - Music
+ *     parameters:
+ *       - name: release_id
+ *         type: string
+ */
+    router.get('/releaseCover', async (req, res) => {
+    try {
+        const response = await fetch(
+            `https://coverartarchive.org/release/${req.query.release_id}`
+        )
+        let data
+        try {
+            // if data is not json, coverartarchive is returning an error message
+            data = await response.json()
+        } catch (error) {
+            data = {}
+        }
+        res.send(data);
+    } catch (error) {
+        console.log('Error /music/releaseCover:', error);
+        res.status(500).send({ error_message: error.message })
+    }
+});
+
 module.exports = router;

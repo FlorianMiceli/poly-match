@@ -3,6 +3,7 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
 </script>
 
 <template>
+    <Toaster />
     <div vaul-drawer-wrapper class="app-container">
         <header class="header">
             <div class="app-name">PolyMatch✨</div>
@@ -14,7 +15,6 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
             <el-text>Made with ❤️ by Florian M.</el-text>
         </footer>
         <VueQueryDevtools />
-        <Toaster />
     </div>
 </template>
 
