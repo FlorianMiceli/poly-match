@@ -11,8 +11,8 @@ export type User = {
 }
 
 export type UserProfile = {
-    fav_songs?: Song[]
-    fav_artists?: Artist[]
+    fav_songs?: SpotifyTrack[]
+    fav_artists?: SpotifyArtist[]
 }
 
 export type UserCreationForm = {
@@ -27,28 +27,62 @@ export type UserCreationForm = {
 
 // MusicBrainz API types
 
-export type Song = {
-    id: uuid
-    title: string
-    'artist-credit': ArtistCredit[]
-    releases: Release[]
-}
+// export type Song = {
+//     id: uuid
+//     title: string
+//     'artist-credit': ArtistCredit[]
+//     releases: Release[]
+// }
 
-export type ArtistCredit = {
+// export type ArtistCredit = {
+//     name: string
+//     artist: Artist
+// }
+
+// export type Artist = {
+//     id: uuid
+//     name: string
+// }
+
+// export type Release = {
+//     id: uuid
+//     title: string
+//     date: string
+//     'artist-credit': ArtistCredit[]
+// }
+
+// Spotify API types used in database
+
+export type SpotifyArtist = {
+    id: string
     name: string
-    artist: Artist
+    external_urls: {
+        spotify: string
+    }
 }
 
-export type Artist = {
-    id: uuid
+export type SpotifyTrack = {
+    id: string
     name: string
+    album: SpotifyAlbum
+    artists: SpotifyArtist[]
+    external_urls: {
+        spotify: string
+    }
+    preview_url: string
 }
 
-export type Release = {
-    id: uuid
-    title: string
-    date: string
-    'artist-credit': ArtistCredit[]
+export type SpotifyAlbum = {
+    id: string
+    name: string
+    album_type: string
+    artists: SpotifyArtist[]
+    images: {
+        url: string
+        height?: number | undefined
+        width?: number | undefined
+    }[]
+    external_urls: {
+        spotify: string
+    }
 }
-
-
