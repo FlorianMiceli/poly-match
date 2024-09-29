@@ -27,9 +27,8 @@ const openSpotify = () => {
 }
 </script>
 <template>
-
-
     <Drawer>
+        <!-- Badge -->
         <DrawerTrigger as-child> 
             <Badge class="flex items-center space-x-2 p-1 cursor-pointer" variant="outline">
                 <!-- Song Cover -->
@@ -52,13 +51,18 @@ const openSpotify = () => {
                 </Button>
             </Badge>
         </DrawerTrigger>
+
+        <!-- Drawer -->
         <DrawerContent>
+            <!-- Track Title and Artist -->
             <DrawerHeader>
                 <DrawerTitle>
                     <span class="font-bold text-xl">{{ song.name }}</span>
                     <span class="text-gray-400 text-lg block">{{ song.artists[0].name }}</span>
                 </DrawerTitle>
             </DrawerHeader>
+
+            <!-- Album preview + audio + spotify link -->
             <div class="px-4 flex flex-col items-center">
                 <img :src="song.album.images[0].url" :alt="song.album.name" class="rounded-lg">
                 <audio
@@ -72,6 +76,6 @@ const openSpotify = () => {
                     Ecouter sur Spotify
                 </Button>
             </div>
-    </DrawerContent>
-  </Drawer>
+        </DrawerContent>
+    </Drawer>
 </template>
