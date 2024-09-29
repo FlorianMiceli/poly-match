@@ -17,7 +17,6 @@ const props = defineProps<{
 
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-console.log(props.user)
 const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
 
 const logout = () => {
@@ -160,7 +159,7 @@ const logout = () => {
         </div>
 
         <!-- Disconnect button -->
-        <div class="flex justify-center mt-4">
+        <div class="flex justify-center mt-12">
             <Button variant="destructive" @click="logout()">Se déconnecter</Button>
         </div>
     </template>

@@ -3,10 +3,10 @@ import * as z from 'zod'
 import { useForm } from 'vee-validate'
 import { useRouter } from 'vue-router';
 import { toTypedSchema } from '@vee-validate/zod'
-import { useQueryClient } from '@tanstack/vue-query';
-import { login } from '../helpers/userQueriesHelpers';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { useUserStore } from '../stores/user';
-import { info } from '../helpers/display';
+import { error, info } from '../helpers/display';
+import { apiPost } from '../api';
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -16,7 +16,20 @@ if(userStore.user && Object.keys(userStore.user).length > 0){
     router.push('/user')
 }
 
-const loginMutation = login()
+const loginMutation = useMutation({
+    mutationFn: async (creds: { email: string; password: string }) => {
+        const { email, password } = creds;
+        const res = await apiPost("user/login", { email, password });
+        return res;
+    },
+    onSuccess: (data) => {
+        userStore.user = data.data
+        router.push('/user')
+    },
+    onError: () => {
+        error("Erreur","Mauvais identifiants")
+    }
+})
 
 // tanstack query function to get every mutation loading status in one variable
 const loading = computed(() => useQueryClient().isMutating() > 0)
