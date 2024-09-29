@@ -87,13 +87,13 @@ const formComponentProps = computed(() => {
       <template v-for="(shape, key) of shapes" :key="key">
         <slot
           :shape="shape"
-          :name="key.toString()"
-          :field-name="key.toString()"
-          :config="fieldConfig?.[key]"
+          :name="key"
+          :field-name="key"
+          :config="fieldConfig?.[key as keyof typeof fieldConfig]"
         >
           <AutoFormField
-            :config="fieldConfig?.[key]"
-            :field-name="key.toString()"
+            :config="fieldConfig?.[key as keyof typeof fieldConfig] as ConfigItem | Config<ZodAny> | undefined"
+            :field-name="String(key)"
             :shape="shape"
           />
         </slot>

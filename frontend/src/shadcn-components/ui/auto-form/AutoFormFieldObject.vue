@@ -3,7 +3,7 @@ import type { ZodAny, ZodObject, ZodRawShape } from 'zod'
 import { computed, provide } from 'vue'
 import { FieldContextKey, useField } from 'vee-validate'
 import AutoFormField from './AutoFormField.vue'
-import type { Config, ConfigItem, Shape } from './interface'
+import type { Config, ConfigItem,Shape } from './interface'
 import { beautifyObjectName, getBaseSchema, getBaseType, getDefaultValueInZodStack } from './utils'
 import AutoFormLabel from './AutoFormLabel.vue'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shadcn-components/ui/accordion'
@@ -63,7 +63,7 @@ provide(FieldContextKey, fieldContext)
             <AccordionContent class="p-1 space-y-5">
               <template v-for="(shape, key) in shapes" :key="key">
                 <AutoFormField
-                  :config="config?.[key]"
+                  :config="(config?.[key as keyof typeof config]) as ConfigItem | Config<ZodAny> | undefined"
                   :field-name="`${fieldName}.${key.toString()}`"
                   :label="key.toString()"
                   :shape="shape"

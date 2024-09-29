@@ -1,6 +1,5 @@
 import { mergeQueryKeys } from '@lukemorales/query-key-factory'
 import { user } from './user'
-import { music } from './music'
 import { spotify } from './spotify'
 
-export const queries = mergeQueryKeys(user, music, spotify)
+export const queries = mergeQueryKeys(user, spotify)

@@ -12,7 +12,7 @@ export type User = {
 
 export type UserProfile = {
     fav_songs?: SpotifyTrack[];
-    fav_artists?: SpotifyArtistTrackInfos[];
+    fav_artists?: SpotifyArtist[];
     next_events?: Event[];
 };
 
@@ -59,7 +59,8 @@ export type SpotifyArtistTrackInfos = {
     name: string;
     external_urls: {
         spotify: string;
-    };
+    }
+    
 };
 
 export type SpotifyTrack = {
