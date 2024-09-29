@@ -1,6 +1,6 @@
 import { apiGet, apiPost } from '@/api'
 import { useUserStore } from '@/stores/user'
-import { UserCreationForm } from '@/types/global_types'
+import { UserCreationForm, UserProfile } from '@/types/global_types'
 import { createQueryKeys } from '@lukemorales/query-key-factory'
 
 export const user = createQueryKeys('user', {
@@ -39,7 +39,7 @@ export const user = createQueryKeys('user', {
     queryKey: [user_id],
     queryFn: async () => {
       const response = await apiGet('user/profile', { user_id })
-      return response.data
+      return response.data as UserProfile
     }
   })
 })

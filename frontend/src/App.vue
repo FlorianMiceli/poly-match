@@ -7,14 +7,14 @@ getAccessToken()
 <template>
     <Toaster />
     <div vaul-drawer-wrapper class="app-container">
-        <header class="header">
+        <header class="header flex flex-row justify-between">
             <div class="app-name">PolyMatch✨</div>
         </header>
         <main class="main-content">
             <router-view />
         </main>
         <footer class="footer">
-            <el-text>Made with ❤️ by Florian M.</el-text>
+            <el-text>Made with ❤️ by Florian</el-text>
         </footer>
         <VueQueryDevtools />
     </div>

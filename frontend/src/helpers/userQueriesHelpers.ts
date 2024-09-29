@@ -17,6 +17,25 @@ export const createAccount = (data: Ref<UserCreationForm | null>) => {
     })
 }
 
+export const login = () => {
+    return useMutation({
+        mutationFn: async (creds: { email: string; password: string }) => {
+            const { email, password } = creds;
+            const res = await apiPost("user/login", { email, password });
+            return res;
+        },
+        onSuccess: (data) => {
+            const userStore = useUserStore()
+            const router = useRouter()
+            userStore.user = data.data
+            router.push('/user')
+        },
+        onError: () => {
+            error("Erreur","Mauvais identifiants")
+        }
+    })
+}
+
 export const getProfilePicture = (instagramUsername: string) => {
     return useQuery({
         ...queries.user.get_profile_picture(instagramUsername),

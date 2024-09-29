@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { Skeleton } from "@/shadcn-components/ui/skeleton";
 import { useUserStore } from "@/stores/user";
+import { useRouter } from "vue-router";
 const userStore = useUserStore();
+const router = useRouter()
+if(!userStore.user || Object.keys(userStore.user).length === 0){
+    router.push('/login')
+}
 </script>
 <template>
     <div class="m-4 mb-12">

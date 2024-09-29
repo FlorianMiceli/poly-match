@@ -3,6 +3,12 @@ import { getProfile } from "@/helpers/userQueriesHelpers";
 import { User } from "@/types/global_types";
 import { Plus } from "lucide-vue-next";
 import { DrawerTrigger } from "vaul-vue";
+import { useUserStore } from "@/stores/user";
+import { useQueryClient } from "@tanstack/vue-query";
+
+const queryClient = useQueryClient()
+const router = useRouter()
+const userStore = useUserStore()
 
 const props = defineProps<{
     user: User;
@@ -11,7 +17,14 @@ const props = defineProps<{
 
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
+console.log(props.user)
 const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
+
+const logout = () => {
+    userStore.user = null
+    queryClient.invalidateQueries()
+    router.push('/login')
+}
 </script>
 <template>
 
@@ -144,6 +157,11 @@ const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
                     Work in progress
                 </CardContent>
             </Card>
+        </div>
+
+        <!-- Disconnect button -->
+        <div class="flex justify-center mt-4">
+            <Button variant="destructive" @click="logout()">Se déconnecter</Button>
         </div>
     </template>
 </template>

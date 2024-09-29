@@ -18,7 +18,7 @@ const { data: profile } = getProfile(props.user_id)
 const removeSong = (song: SpotifyTrack) => {
     updateProfileMutation.mutate({
         ...profile.value,
-        fav_songs: profile?.value?.fav_songs.filter((s: SpotifyTrack) => s.id !== song.id)
+        fav_songs: profile?.value?.fav_songs?.filter((s: SpotifyTrack) => s.id !== song.id)
     })
 }
 

@@ -65,6 +65,41 @@ router.post('/create', async (req, res) => {
     }
 })
 
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     description: Login user with email
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - name: email
+ *         type: string
+ *       - name: password
+ *         type: string
+ */
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log(email, password)
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        });
+        if (error) throw error
+        const { data: userData, error: error2 } = await supabase
+            .from('User')
+            .select('*')
+            .eq('id', data.user.id)
+            .single()
+        if (error2) throw error2
+        res.send(userData)
+    } catch (error) {
+        console.log('Error /user/login :', error);
+        res.status(500).send({ error_message: error.message })
+    }
+});
+
 
 /**
  * @swagger
@@ -114,7 +149,7 @@ router.get('/profile', async (req, res) => {
 /**
  * @swagger
  * /user/updateProfile:
- *   get:
+ *   post:
  *     description: Update the profile of a user
  *     tags:
  *       - User
