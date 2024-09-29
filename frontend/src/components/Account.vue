@@ -141,7 +141,7 @@ const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
                     <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
                 </CardHeader>
                 <CardContent class="flex-grow">
-                    ksjdhfqsdfj
+                    Work in progress
                 </CardContent>
             </Card>
         </div>

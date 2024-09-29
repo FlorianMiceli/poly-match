@@ -34,6 +34,7 @@ export const getProfile = (user_id: string) => {
             error("Erreur","Erreur lors de la récupération du profil, réessayez plus tard")
             return true
         },
+        refetchOnMount: false
     })
 }
 
