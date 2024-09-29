@@ -4,7 +4,7 @@ import { UserCreationForm, UserProfile } from '@/types/global_types'
 import { createQueryKeys } from '@lukemorales/query-key-factory'
 
 export const user = createQueryKeys('user', {
-  create_account: (data: UserCreationForm) => ({
+  create_account: (data: Ref<UserCreationForm | null>) => ({
     queryKey: [data],
     queryFn: async () => {
       const userStore = useUserStore()

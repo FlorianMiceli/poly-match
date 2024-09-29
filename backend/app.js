@@ -15,7 +15,7 @@ const swaggerSpec = swaggerJSDoc({
     swaggerDefinition: {
         openapi: "3.0.0",
         info: {
-            title: "Boilerplate API", //TODO: Change this to the name of the API
+            title: "PolyMatch API",
             version: "0.0.1",
         },
     },

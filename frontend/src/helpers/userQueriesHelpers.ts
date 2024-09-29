@@ -6,8 +6,8 @@ import { apiPost } from "@/api"
 import { useUserStore } from "@/stores/user"
 
 export const createAccount = (data: Ref<UserCreationForm | null>) => {
+    // @ts-expect-error
     return useQuery({
-        // @ts-expect-error reactivity ts error
         ...queries.user.create_account(data),
         throwOnError: () => {
             error("Erreur","Erreur lors de la création du compte, réessayez plus tard")
