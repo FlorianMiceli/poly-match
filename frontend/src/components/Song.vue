@@ -22,9 +22,7 @@ const removeSong = (song: SpotifyTrack) => {
     })
 }
 
-const openSpotify = () => {
-    window.open(props.song.external_urls.spotify, '_blank')
-}
+const openSpotify = () => window.open(props.song.external_urls.spotify, '_blank')
 </script>
 <template>
     <Drawer>
