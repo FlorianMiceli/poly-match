@@ -1,4 +1,3 @@
-import { queryClient } from "./App.vue";
 
 
 type SpotifyTokenResponse = {
@@ -52,7 +51,19 @@ export async function spotifyApiGet(endpoint: string, token: string, params?: an
     });
 
     if (!response.ok) {
-        throw new Error(`Spotify API error: ${response.statusText}`);
+        switch (response.status) {
+            case 401:
+                // Unauthorized: Invalid Spotify access token
+                throw new Error("Problème avec l'API Spotify, rechargez l'app");
+            case 403:
+                // Forbidden: Insufficient scope
+                throw new Error("Problème avec l'API Spotify, rechargez l'app");
+            case 429:
+                // Too many requests: Rate limit exceeded   
+                throw new Error("Limite de requêtes Spotify atteinte, attendez 30 secondes");
+            default:
+                throw new Error(`Spotify API error: ${response.statusText}`);
+        }
     }
 
     return response.json();

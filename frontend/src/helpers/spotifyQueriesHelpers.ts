@@ -24,3 +24,14 @@ export const searchSong = (songName: Ref<string>, token: Ref<string | undefined>
     })
 }
 
+export const searchArtist = (artistName: Ref<string>, token: Ref<string | undefined>) => {
+    // @ts-expect-error 
+    return useQuery({
+        ...queries.spotify.search_artist(artistName, token as Ref<string>),
+        throwOnError: () => {
+            error("Erreur","Erreur lors de la recherche de l'artiste")
+            return true
+        },
+        enabled: () => token.value !== undefined && artistName.value.length > 0
+    })
+}   

@@ -23,4 +23,19 @@ export const spotify = createQueryKeys("spotify", {
             return response
         }
     }),
+    search_artist: (artistName: Ref<string>, token: Ref<string>) => ({
+        queryKey: [artistName],
+        queryFn: async () => {
+            const response = await spotifyApiGet(
+                `/search`,
+                unref(token), 
+                {
+                    q: unref(artistName),
+                    type: "artist",
+                    limit: 5
+                } as SpotifyApi.SearchForItemParameterObject
+            ) as SpotifyApi.ArtistSearchResponse
+            return response
+        }
+    })
 });

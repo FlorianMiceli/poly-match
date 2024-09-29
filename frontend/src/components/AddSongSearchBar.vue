@@ -4,7 +4,7 @@ import { updateProfile, getProfile } from '@/helpers/userQueriesHelpers';
 import { debounce } from 'lodash-es';
 import { Loader2 } from 'lucide-vue-next'
 import { useUserStore } from '@/stores/user'
-import { Song, SpotifyTrack } from '@/types/global_types';
+import { SpotifyTrack } from '@/types/global_types';
 import { error } from '@/helpers/display';
 import { DrawerClose } from "vaul-vue";
 
@@ -24,12 +24,19 @@ const { data: profile, isLoading: profileIsLoading } = getProfile(userStore.user
 const profileMutation = updateProfile()
 
 const addSong = (spotifyTrack: SpotifyApi.TrackObjectFull) => {
-    // get only props that we need 
+    // get only props that we need
     const track: SpotifyTrack = {
         id: spotifyTrack.id,
         name: spotifyTrack.name,
         artists: spotifyTrack.artists,
-        album: spotifyTrack.album,
+        album: {
+            id: spotifyTrack.album.id,
+            name: spotifyTrack.album.name,
+            album_type: spotifyTrack.album.album_type,
+            artists: spotifyTrack.album.artists,
+            images: spotifyTrack.album.images,
+            external_urls: spotifyTrack.album.external_urls,
+        },
         external_urls: spotifyTrack.external_urls,
         preview_url: spotifyTrack.preview_url || ''
     }

@@ -39,8 +39,8 @@ const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
     </template>
     <template v-else>
         <!-- User infos -->
-        <div class="flex items-center">
-            <Avatar class="mr-4 w-16 h-16">
+        <div class="flex items-center mb-4">
+            <Avatar class="mr-4 w-16 h-16 ml-2 my-1">
                 <AvatarImage src="" alt="@radix-vue" />
                 <AvatarFallback>{{ user.first_name[0].toUpperCase() }}{{ user.last_name[0].toUpperCase() }}</AvatarFallback>
             </Avatar>
@@ -49,65 +49,101 @@ const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
                 <div class="text-sm text-gray-500">{{ user.school_year }}{{ user.school_major ? ` - ${user.school_major}` : "" }}</div>
             </div>
         </div>
-    
-        <!-- Top Artistes -->
-        <Card class="w-full mt-4 shadow-lg">
-            <CardHeader>
-                <CardTitle>Top Artistes</CardTitle>
-                <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
-            </CardHeader>
-            <CardContent> {{ profile?.fav_artists }} </CardContent>
-        </Card>
-    
-        <!-- Top Titres -->
-        <Card class="w-full mt-4 shadow-lg">
 
-            <!-- Header -->
-            <CardHeader>
-                <CardTitle>Top Titres</CardTitle>
-                <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
-            </CardHeader>
+        <!-- Flex container for the three main sections -->
+        <div class="flex flex-wrap gap-4">
+            <!-- Top Artistes -->
+            <Card class="flex-grow basis-[calc(33.333%-1rem)] min-w-[300px] shadow-2xl flex flex-col">
+                <!-- Header -->
+                <CardHeader>
+                    <CardTitle>👤 Top Artistes</CardTitle>
+                </CardHeader>
 
-            <!-- List of songs -->
-            <CardContent>
-                <div v-if="profile?.fav_songs && profile.fav_songs.length > 0" class="flex flex-wrap gap-2 ">
-                    <!-- TODO -->
-                    <Song 
-                        v-for="song in profile.fav_songs" 
-                        :key="song.id" 
-                        :song="song" 
-                        :removeable="isUserProfile" 
-                    />
-                </div>
-                <p v-else class="text-gray-500">Aucun titre favori ajouté</p>
-            </CardContent>
-    
-            <!-- TODO -->
-            <CardFooter v-if="true">
-                <Drawer>
-                    <DrawerTrigger as-child>
-                        <Button class="w-full"> <Plus class="mr-2 h-4 w-4" /> Ajouter un titre </Button>
-                    </DrawerTrigger>
-                    <DrawerContent>
-                        <DrawerHeader>
-                            <DrawerTitle>Ajouter une musique</DrawerTitle>
-                        </DrawerHeader>
+                <!-- List of artists -->
+                <CardContent class="flex-grow">
+                    <div v-if="profile?.fav_artists && profile.fav_artists.length > 0" class="flex flex-wrap gap-2 ">
+                        <Artist 
+                            v-for="artist in profile.fav_artists" 
+                            :key="artist.id" 
+                            :artist="artist" 
+                            :removeable="isUserProfile"
+                            :user_id="user.id"
+                        />
+                    </div>
+                    <p v-else class="text-gray-500">Aucun artiste favori ajouté</p>
+                </CardContent>
+
+                <!-- Add artist if user own profile -->
+                <CardFooter v-if="isUserProfile" class="mt-auto">
+                    <Drawer>
+                        <DrawerTrigger as-child>
+                            <Button class="w-full"> 
+                                <Plus class="mr-2 h-4 w-4" /> 
+                                Ajouter un artiste 
+                            </Button>
+                        </DrawerTrigger>
+                        <DrawerContent>
+                            <DrawerHeader>
+                                <DrawerTitle>Ajouter un artiste</DrawerTitle>
+                            </DrawerHeader>
+                            <div class="p-4">
+                                <AddArtistSearchBar />
+                            </div>
+                        </DrawerContent>
+                    </Drawer>
+                </CardFooter>
+            </Card>
+
+            <!-- Top Titres -->
+            <Card class="flex-grow basis-[calc(33.333%-1rem)] min-w-[300px] shadow-2xl flex flex-col">
+                <!-- Header -->
+                <CardHeader>
+                    <CardTitle>🎶 Top Titres</CardTitle>
+                </CardHeader>
+
+                <!-- List of songs -->
+                <CardContent class="flex-grow">
+                    <div v-if="profile?.fav_songs && profile.fav_songs.length > 0" class="flex flex-wrap gap-2 ">
                         <!-- TODO -->
-                        <div class="p-4" v-if="true">
-                            <AddSongsSearchBar />
-                        </div>
-                    </DrawerContent>
-                </Drawer>
-            </CardFooter>
-        </Card>
-    
-        <!-- Next Events -->
-        <Card class="w-full mt-4 shadow-lg">
-            <CardHeader>
-                <CardTitle>Prochains concerts</CardTitle>
-                <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
-            </CardHeader>
-            <CardContent> ksjdhfqsdfj </CardContent>
-        </Card>
+                        <Song 
+                            v-for="song in profile.fav_songs" 
+                            :key="song.id" 
+                            :song="song" 
+                            :removeable="isUserProfile" 
+                            :user_id="user.id"
+                        />
+                    </div>
+                    <p v-else class="text-gray-500">Aucun titre favori ajouté</p>
+                </CardContent>
+
+                <!-- Add song if user own profile -->
+                <CardFooter v-if="isUserProfile" class="mt-auto">
+                    <Drawer>
+                        <DrawerTrigger as-child>
+                            <Button class="w-full"> <Plus class="mr-2 h-4 w-4" /> Ajouter un titre </Button>
+                        </DrawerTrigger>
+                        <DrawerContent>
+                            <DrawerHeader>
+                                <DrawerTitle>Ajouter une musique</DrawerTitle>
+                            </DrawerHeader>
+                            <div class="p-4">
+                                <AddSongSearchBar />
+                            </div>
+                        </DrawerContent>
+                    </Drawer>
+                </CardFooter>
+            </Card>
+
+            <!-- Next Events -->
+            <Card class="flex-grow basis-[calc(33.333%-1rem)] min-w-[300px] shadow-2xl flex flex-col">
+                <CardHeader>
+                    <CardTitle>Prochains concerts</CardTitle>
+                    <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
+                </CardHeader>
+                <CardContent class="flex-grow">
+                    ksjdhfqsdfj
+                </CardContent>
+            </Card>
+        </div>
     </template>
 </template>

@@ -1,16 +1,27 @@
 <script setup lang="ts">
+import { getProfile, updateProfile } from '@/helpers/userQueriesHelpers';
 import { SpotifyTrack } from '@/types/global_types';
 import { CircleX } from 'lucide-vue-next';
 import { Loader2 } from 'lucide-vue-next'
 
-defineProps<{
+
+const props = defineProps<{
     song: SpotifyTrack
     removeable: boolean
+    user_id: string
 }>()
 
+const updateProfileMutation = updateProfile()
+const { data: profile } = getProfile(props.user_id)
+
 const removeSong = (song: SpotifyTrack) => {
-    console.log(song)
+    updateProfileMutation.mutate({
+        ...profile.value,
+        fav_songs: profile?.value?.fav_songs.filter((s: SpotifyTrack) => s.id !== song.id)
+    })
 }
+
+
 </script>
 <template>
     <Badge class="flex items-center space-x-2 p-1" variant="outline">
