@@ -32,7 +32,7 @@ app.get("/api-docs.json", (req, res) => {
 });
 
 // Enable CORS
-const origin = process.env.NODE_ENV === "production" ? "https://poly-match-frontend.vercel.app/" : "http://localhost:" + FRONTEND_PORT;
+const origin = process.env.NODE_ENV === "production" ? "https://poly-match-backend.vercel.app/" : "http://localhost:" + FRONTEND_PORT;
 // restrict to only allow requests from the frontend
 app.use(
     cors(
