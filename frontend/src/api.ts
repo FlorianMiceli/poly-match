@@ -5,7 +5,7 @@ Connection to backend server using axios
 import axios from 'axios'
 import { error as displayError } from './helpers/display'
 
-const baseURL = process.env.NODE_ENV === 'production' ? 'http://poly-match-backend.vercel.app/' : 'http://localhost:8080/'
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://poly-match-backend.vercel.app/' : 'http://localhost:8080/'
 
 let backend = axios.create({
     baseURL: baseURL
