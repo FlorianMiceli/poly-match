@@ -39,7 +39,7 @@ app.use(
         //Access-Control-Allow-Headers
         {
             origin: origin,
-            methods: "GET, POST, PUT, DELETE",
+            methods: "GET, POST, PUT, DELETE, OPTIONS",
             allowedHeaders: "*",
         }
     )
