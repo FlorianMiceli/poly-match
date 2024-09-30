@@ -31,3 +31,4 @@ coverage
 
 /src/types/*.d.ts
 .env
+.vercel

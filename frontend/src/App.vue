@@ -14,7 +14,7 @@ getAccessToken()
             <router-view />
         </main>
         <footer class="footer">
-            <el-text>Made with ❤️ by Florian</el-text>
+            <!-- <el-text>Made with ❤️ by Florian</el-text> -->
         </footer>
         <VueQueryDevtools />
     </div>

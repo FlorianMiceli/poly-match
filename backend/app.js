@@ -32,7 +32,7 @@ app.get("/api-docs.json", (req, res) => {
 });
 
 // Enable CORS
-const origin = process.env.NODE_ENV === "production" ? "https://your-production-frontend-url.com" : "http://localhost:" + FRONTEND_PORT; //TODO: Change this to the production frontend URL
+const origin = process.env.NODE_ENV === "production" ? "https://poly-match.vercel.app/" : "http://localhost:" + FRONTEND_PORT;
 // restrict to only allow requests from the frontend
 app.use(
     cors(
