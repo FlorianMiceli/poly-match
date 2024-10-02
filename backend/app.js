@@ -32,17 +32,14 @@ app.get("/api-docs.json", (req, res) => {
 });
 
 // Enable CORS
-const origin = process.env.NODE_ENV === "production" ? "https://poly-match.vercel.app/" : "http://localhost:" + FRONTEND_PORT;
+const origin = process.env.NODE_ENV === "production" ? "https://poly-match.vercel.app" : "http://localhost:" + FRONTEND_PORT;
 // restrict to only allow requests from the frontend
 app.use(
-    cors(
-        //Access-Control-Allow-Headers
-        {
-            origin: origin,
-            methods: "GET, POST, PUT, DELETE, OPTIONS",
-            allowedHeaders: "*",
-        }
-    )
+    cors({
+        origin: origin,
+        methods: "GET, POST, PUT, DELETE, OPTIONS",
+        allowedHeaders: "*",
+    })
 );
 
 // Routes
