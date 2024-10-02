@@ -54,7 +54,7 @@ const openSpotify = () => window.open(props.song.external_urls.spotify, '_blank'
         <DrawerContent>
             <!-- Track Title and Artist -->
             <DrawerHeader>
-                <DrawerTitle>
+                <DrawerTitle class="text-center">
                     <span class="font-bold text-xl">{{ song.name }}</span>
                     <span class="text-gray-400 text-lg block">{{ song.artists[0].name }}</span>
                 </DrawerTitle>
@@ -62,7 +62,7 @@ const openSpotify = () => window.open(props.song.external_urls.spotify, '_blank'
 
             <!-- Album preview + audio + spotify link -->
             <div class="px-4 flex flex-col items-center">
-                <img :src="song.album.images[0].url" :alt="song.album.name" class="rounded-lg">
+                <img :src="song.album.images[0].url" :alt="song.album.name" class="rounded-lg w-full md:w-96">
                 <audio
                     autoplay
                     ref="audio"
