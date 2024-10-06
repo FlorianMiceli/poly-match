@@ -18,21 +18,20 @@ const sortedSongMatches = computed(() =>
         <CardsLoader :cardsCount="1"/>
     </template>
     <template v-else>
-        <Card class="flex-grow basis-[calc(33.333%-1rem)] min-w-[300px] shadow-2xl flex flex-col">
-            <CardHeader>
-                <CardTitle>
-                    Matchs par titres
-                </CardTitle>
-            </CardHeader>
-            <CardContent class="flex-grow">
-                <div class="flex flex-wrap gap-2">
-                    <SongMatch 
-                        v-for="match in sortedSongMatches" 
-                        :key="match.user_id" 
-                        :match="match" 
-                    />
-                </div>
-            </CardContent>
-        </Card>
+        <div 
+            class="text-center text-gray-500" 
+            v-if="sortedSongMatches.length === 0"
+        >
+            Aucun match trouvé
+        </div>
+        <CustomCard v-else title="Matchs par titres">
+            <div class="flex flex-wrap gap-2">
+                <SongMatch 
+                    v-for="match in sortedSongMatches" 
+                    :key="match.user_id" 
+                    :match="match" 
+                />
+            </div>
+        </CustomCard>
     </template>
 </template>

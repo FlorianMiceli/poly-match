@@ -46,20 +46,17 @@ const { data: user, isLoading: isUserLoading } = getUser(props.match.user_id);
 
         <!-- Drawer -->
         <DrawerContent>
-
-            <!-- Loader -->
             <ProfileLoader v-if="isUserLoading" class="pl-4" />
 
-            <!-- User Infos -->
             <UserInfos 
                 v-else
                 :first_name="user.first_name"
                 :last_name="user.last_name"
+                :instagram_username="user.instagram_username"
                 :school_year="user.school_year"
                 :school_major="user.school_major"
                 class="mt-4"
             />
-
             
             <!-- List of matching songs -->
             <div class="flex flex-col gap-2 mx-4 mb-4">
