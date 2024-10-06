@@ -217,6 +217,64 @@ router.get('/loginEmail', async (req, res) => {
     }
 })
 
+/**
+ * @swagger
+ * /user/get:
+ *   get:
+ *     description: Get a user by ID
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - name: user_id
+ *         type: string
+ *         description: The ID of the user to retrieve
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: User data
+ *       400:
+ *         description: User ID is required
+ *       500:
+ *         description: Server error
+ */
+router.get('/get', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+        const { data, error } = await supabase
+            .from('User')
+            .select('*')
+            .eq('id', user_id)
+            .single()
+        if (error) throw error;
+        res.send(data);
+    } catch (error) {
+        console.log('Error /user/get :', error);
+        res.status(500).send({ error_message: error.message });
+    }
+})
+
+router.get('/getSongMatches', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+
+        // Find matches for other users with the same favorite songs
+        const { data, error } = await supabase
+            .rpc('get_song_matches', { target_user_id: user_id })
+
+        if (error) throw error;
+
+        console.log(data)
+        res.send(data);
+    } catch (error) {
+        console.log('Error /user/getSongMatches :', error);
+        res.status(500).send({ error_message: error.message });
+    }
+})
+
+
+
+
+
 // Scrape instagram profile picture
 // router.get('/instagram/profile-picture', async (req, res) => {
 //     try {

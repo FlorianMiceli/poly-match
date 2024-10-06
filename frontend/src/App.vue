@@ -8,7 +8,7 @@ getAccessToken()
     <Toaster />
     <div vaul-drawer-wrapper class="app-container">
         <header class="header flex flex-row justify-between">
-            <div class="app-name">PolyMatch✨</div>
+            <div class="app-name">🚧🚧🚧</div>
         </header>
         <main class="main-content">
             <router-view />

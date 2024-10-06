@@ -38,6 +38,28 @@ export const getProfile = (user_id: string) => {
     })
 }
 
+export const getUser = (user_id: string) => {
+    return useQuery({
+        ...queries.user.get_user(user_id),
+        throwOnError: () => {
+            error("Erreur","Erreur lors de la récupération du profil, réessayez plus tard")
+            return true
+        },
+        refetchOnMount: false
+    })
+}
+
+export const getSongMatches = (user_id: string, user_profile: Ref<UserProfile | undefined>) => {
+    return useQuery({
+        ...queries.user.get_song_matches(user_id),
+        throwOnError: () => {
+            error("Erreur","Erreur lors de la récupération des matchs musicaux, réessayez plus tard")
+            return true
+        },
+        enabled: () => user_profile.value !== undefined
+
+    })
+}
 export const updateProfile = () => {
     const queryClient = useQueryClient()
     const userStore = useUserStore()

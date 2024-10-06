@@ -41,5 +41,19 @@ export const user = createQueryKeys('user', {
       const response = await apiGet('user/profile', { user_id })
       return response.data as UserProfile
     }
+  }),
+  get_user: (user_id: string) => ({
+    queryKey: [user_id],
+    queryFn: async () => {
+      const response = await apiGet('user/get', { user_id })
+      return response.data
+    }
+  }),
+  get_song_matches: (user_id: string) => ({
+    queryKey: [user_id],
+    queryFn: async () => {
+      const response = await apiGet('user/getSongMatches', { user_id })
+      return response.data
+    }
   })
 })

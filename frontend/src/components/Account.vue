@@ -15,7 +15,6 @@ const props = defineProps<{
     isUserProfile: boolean;
 }>();
 
-const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
 
@@ -51,16 +50,12 @@ const logout = () => {
     </template>
     <template v-else>
         <!-- User infos -->
-        <div class="flex items-center mb-4">
-            <Avatar class="mr-4 w-16 h-16 ml-2 my-1">
-                <AvatarImage src="" alt="@radix-vue" />
-                <AvatarFallback>{{ user.first_name[0].toUpperCase() }}{{ user.last_name[0].toUpperCase() }}</AvatarFallback>
-            </Avatar>
-            <div class="text-xl font-medium">
-                {{ capitalizeFirstLetter(user.first_name) }} {{ capitalizeFirstLetter(user.last_name) }}
-                <div class="text-sm text-gray-500">{{ user.school_year }}{{ user.school_major ? ` - ${user.school_major}` : "" }}</div>
-            </div>
-        </div>
+        <UserInfos 
+            :first_name="user.first_name"
+            :last_name="user.last_name"
+            :school_year="user.school_year"
+            :school_major="user.school_major"
+        />
 
         <!-- Flex container for the three main sections -->
         <div class="flex flex-wrap gap-4">

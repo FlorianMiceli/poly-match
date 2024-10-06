@@ -26,6 +26,13 @@ export type UserCreationForm = {
     password: string;
 };
 
+export type SongMatch = {
+    user_id: uuid;
+    first_name: string;
+    last_name: string;
+    instagram_username: string;
+    matching_songs: SpotifyTrack[];
+}
 // MusicBrainz API types
 
 // export type Song = {

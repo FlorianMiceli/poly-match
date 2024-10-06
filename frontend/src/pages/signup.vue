@@ -66,7 +66,7 @@ watch(createAccountData, (data) => {if (data) router.push('/user')})
             sourceField: 'school_year',
             type: DependencyType.HIDES,
             targetField: 'school_major',
-            when: school_year => ['PEIP1', 'PEIP2', 'PEIPC'].includes(school_year)
+            when: (school_year: string) => ['PEIP1', 'PEIP2', 'PEIPC'].includes(school_year)
         }]"
       >
         <AsyncButton type="submit" class="mt-4" label="Créer mon compte" :loading="createAccountIsLoading" />
