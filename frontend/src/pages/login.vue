@@ -3,7 +3,7 @@ import * as z from 'zod'
 import { useForm } from 'vee-validate'
 import { useRouter } from 'vue-router';
 import { toTypedSchema } from '@vee-validate/zod'
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation, useIsMutating } from '@tanstack/vue-query';
 import { useUserStore } from '../stores/user';
 import { error, info } from '../helpers/display';
 import { apiPost } from '../api';
@@ -31,8 +31,7 @@ const loginMutation = useMutation({
     }
 })
 
-// tanstack query function to get every mutation loading status in one variable
-const loading = computed(() => useQueryClient().isMutating() > 0)
+const isMutating = useIsMutating()
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -72,7 +71,7 @@ const form = useForm({
                         },
                     }"
                 >
-                    <AsyncButton type="submit" class="mt-4 w-full" label="Se connecter" :loading="loading" />
+                    <AsyncButton type="submit" class="mt-4 w-full" label="Se connecter" :loading="isMutating > 0" />
                 </AutoForm>
                 <div class="text-center text-sm">
                     Pas de compte ?

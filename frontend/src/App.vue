@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
 import { getAccessToken } from './helpers/spotifyQueriesHelpers';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 getAccessToken()
 </script>
 
@@ -9,6 +11,8 @@ getAccessToken()
     <div vaul-drawer-wrapper class="app-container">
         <header class="header flex flex-row justify-between">
             <div class="app-name">🚧🚧🚧</div>
+            <Button v-if="router.currentRoute.value.path !== '/user'" @click="router.push('/user')" variant="outline"> Mon compte</Button>
+            <Button v-if="router.currentRoute.value.path !== '/home'" @click="router.push('/home')" variant="outline"> Matchs</Button>
         </header>
         <main class="main-content">
             <router-view />

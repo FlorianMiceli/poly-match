@@ -1,14 +1,11 @@
 <script setup lang='ts'>
 import { SongMatch } from '@/types/global_types';
-import { Loader2 } from 'lucide-vue-next';
 import { DrawerTrigger } from "vaul-vue";
 import { getUser } from '@/helpers/userQueriesHelpers';
 
 const props = defineProps<{
     match: SongMatch
 }>();
-
-const openSpotify = (url: string) => window.open(url, '_blank');
 
 const { data: user, isLoading: isUserLoading } = getUser(props.match.user_id);
 </script>
@@ -51,17 +48,7 @@ const { data: user, isLoading: isUserLoading } = getUser(props.match.user_id);
         <DrawerContent>
 
             <!-- Loader -->
-            <div v-if="isUserLoading" class="pl-4 justify-center h-full">
-                <div class="flex flex-col space-y-6 py-3">
-                    <div class="flex items-center">
-                        <Skeleton class="h-16 w-16 rounded-full mr-2" />
-                        <div class="space-y-2">
-                            <Skeleton class="h-4 w-[250px]" />
-                            <Skeleton class="h-4 w-[200px]" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ProfileLoader v-if="isUserLoading" class="pl-4" />
 
             <!-- User Infos -->
             <UserInfos 

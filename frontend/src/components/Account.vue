@@ -35,17 +35,9 @@ const logout = () => {
 
     <!-- Loader -->
     <template v-if="profileLoading">
-        <div class="flex flex-col space-y-6">
-            <div class="flex items-center">
-                <Skeleton class="h-16 w-16 rounded-full mr-2" />
-                <div class="space-y-2">
-                    <Skeleton class="h-4 w-[250px]" />
-                    <Skeleton class="h-4 w-[200px]" />
-                </div>
-            </div>
-            <Skeleton class="h-[125px] rounded-xl" />
-            <Skeleton class="h-[125px] rounded-xl" />
-            <Skeleton class="h-[125px] rounded-xl" />
+        <div class="pl-2">
+            <ProfileLoader />
+            <CardsLoader :cardsCount="3" />
         </div>
     </template>
     <template v-else>
