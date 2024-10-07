@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 defineProps<{
     title: string
+    description?: string
 }>()
 </script>
 <template>
@@ -9,9 +10,15 @@ defineProps<{
             <CardTitle>
                 {{ title }}
             </CardTitle>
+            <CardDescription>
+                {{ description }}
+            </CardDescription>
         </CardHeader>
         <CardContent class="flex-grow">
             <slot />
         </CardContent>
+        <CardFooter v-if="$slots.footer">
+            <slot name="footer" />
+        </CardFooter>
     </Card>
 </template>

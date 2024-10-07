@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Instagram, ArrowUpRight } from 'lucide-vue-next';
+import { info } from '@/helpers/display';
+import { ArrowUpRight } from 'lucide-vue-next';
 
 const props = defineProps<{
     first_name: string;
@@ -10,7 +11,11 @@ const props = defineProps<{
 }>()
 
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-const openInstagram = () => window.open(`https://www.instagram.com/${props.instagram_username}`, '_blank')
+const openInstagram = () => {
+    if(props.instagram_username) 
+        window.open(`https://www.instagram.com/${props.instagram_username}`, '_blank')
+    else info("Info", "Aucun compte Instagram trouvé")
+}
 </script>
 <template>
     <div class="flex flex-row items-center justify-between mb-4">

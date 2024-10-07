@@ -47,33 +47,24 @@ const logout = () => {
             :last_name="user.last_name"
             :school_year="user.school_year"
             :school_major="user.school_major"
+            :instagram_username="user.instagram_username"
         />
 
         <!-- Flex container for the three main sections -->
         <div class="flex flex-wrap gap-4">
             <!-- Top Artistes -->
-            <Card class="flex-grow basis-[calc(33.333%-1rem)] min-w-[300px] shadow-2xl flex flex-col">
-                <!-- Header -->
-                <CardHeader>
-                    <CardTitle>👤 Top Artistes</CardTitle>
-                </CardHeader>
-
-                <!-- List of artists -->
-                <CardContent class="flex-grow">
-                    <div v-if="profile?.fav_artists && profile.fav_artists.length > 0" class="flex flex-wrap gap-2 ">
-                        <Artist 
-                            v-for="artist in profile.fav_artists" 
-                            :key="artist.id" 
-                            :artist="artist" 
-                            :removeable="isUserProfile"
-                            :user_id="user.id"
-                        />
-                    </div>
-                    <p v-else class="text-gray-500">Aucun artiste favori ajouté</p>
-                </CardContent>
-
-                <!-- Add artist if user own profile -->
-                <CardFooter v-if="isUserProfile" class="mt-auto">
+            <CustomCard title="👤 Top Artistes">
+                <div v-if="profile?.fav_artists && profile.fav_artists.length > 0" class="flex flex-wrap gap-2 ">
+                    <Artist 
+                        v-for="artist in profile.fav_artists" 
+                        :key="artist.id" 
+                        :artist="artist" 
+                        :removeable="isUserProfile"
+                        :user_id="user.id"
+                    />
+                </div>
+                <p v-else class="text-gray-500">Aucun artiste favori ajouté</p>
+                <template v-slot:footer v-if="isUserProfile" class="mt-auto">
                     <Drawer>
                         <DrawerTrigger as-child>
                             <Button class="w-full"> 
@@ -90,33 +81,23 @@ const logout = () => {
                             </div>
                         </DrawerContent>
                     </Drawer>
-                </CardFooter>
-            </Card>
+                </template>
+            </CustomCard>
 
             <!-- Top Titres -->
-            <Card class="flex-grow basis-[calc(33.333%-1rem)] min-w-[300px] shadow-2xl flex flex-col">
-                <!-- Header -->
-                <CardHeader>
-                    <CardTitle>🎶 Top Titres</CardTitle>
-                </CardHeader>
-
-                <!-- List of songs -->
-                <CardContent class="flex-grow">
-                    <div v-if="profile?.fav_songs && profile.fav_songs.length > 0" class="flex flex-wrap gap-2 ">
-                        <!-- TODO -->
-                        <Song 
-                            v-for="song in profile.fav_songs" 
-                            :key="song.id" 
-                            :song="song" 
-                            :removeable="isUserProfile" 
-                            :user_id="user.id"
-                        />
-                    </div>
-                    <p v-else class="text-gray-500">Aucun titre favori ajouté</p>
-                </CardContent>
-
-                <!-- Add song if user own profile -->
-                <CardFooter v-if="isUserProfile" class="mt-auto">
+            <CustomCard title="🎶 Top Titres">
+                <div v-if="profile?.fav_songs && profile.fav_songs.length > 0" class="flex flex-wrap gap-2 ">
+                    <!-- TODO -->
+                    <Song 
+                        v-for="song in profile.fav_songs" 
+                        :key="song.id" 
+                        :song="song" 
+                        :removeable="isUserProfile" 
+                        :user_id="user.id"
+                    />
+                </div>
+                <p v-else class="text-gray-500">Aucun titre favori ajouté</p>
+                <template v-slot:footer>
                     <Drawer>
                         <DrawerTrigger as-child>
                             <Button class="w-full"> <Plus class="mr-2 h-4 w-4" /> Ajouter un titre </Button>
@@ -130,19 +111,13 @@ const logout = () => {
                             </div>
                         </DrawerContent>
                     </Drawer>
-                </CardFooter>
-            </Card>
+                </template>
+            </CustomCard>
 
             <!-- Next Events -->
-            <Card class="flex-grow basis-[calc(33.333%-1rem)] min-w-[300px] shadow-2xl flex flex-col">
-                <CardHeader>
-                    <CardTitle>Prochains concerts</CardTitle>
-                    <!-- <CardDescription>Deploy your new project in one-click.</CardDescription> -->
-                </CardHeader>
-                <CardContent class="flex-grow">
-                    Work in progress
-                </CardContent>
-            </Card>
+            <CustomCard title="Prochains concerts">
+                Work in progress
+            </CustomCard>
         </div>
 
         <!-- Disconnect button -->

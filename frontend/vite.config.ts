@@ -24,7 +24,7 @@ export default defineConfig({
     vue(),
     Components({
       dts: 'src/types/components.d.ts',
-      dirs: ['src/components', 'src/views', 'src/pages', 'src/shadcn-components'],
+      dirs: ['src/components', 'src/components/*', 'src/views', 'src/pages', 'src/shadcn-components'],
       resolvers: [ElementPlusResolver()]
     }),
     AutoImport({
