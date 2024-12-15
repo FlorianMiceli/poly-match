@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { supabase } = require('../supabase.js');
-const axios = require('axios');
+const { createClient } = require("../supabase.js");
 
 /**
  * @swagger
@@ -33,6 +32,7 @@ const axios = require('axios');
  */
 router.post('/create', async (req, res) => {
     try {
+        const supabase = createClient({ req, res });
         // Sign up in Supabase Auth
         const { data, error } = await supabase.auth.signUp({
             email: req.body.email,
@@ -67,7 +67,7 @@ router.post('/create', async (req, res) => {
 /**
  * @swagger
  * /user/login:
- *   post:
+ *   get:
  *     description: Login user with email
  *     tags:
  *       - User
@@ -77,9 +77,10 @@ router.post('/create', async (req, res) => {
  *       - name: password
  *         type: string
  */
-router.post('/login', async (req, res) => {
+router.get('/login', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const supabase = createClient({ req, res });
+        const { email, password } = req.query;
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password
@@ -121,6 +122,7 @@ router.post('/login', async (req, res) => {
  */
 router.get('/profile', async (req, res) => {
     try {
+        const supabase = createClient({ req, res });
         const { user_id } = req.query;
 
         if (!user_id) {
@@ -164,6 +166,7 @@ router.get('/profile', async (req, res) => {
  */
 router.post('/updateProfile', async (req, res) => {
     try {
+        const supabase = createClient({ req, res });
         const { profile, user_id } = req.body;
 
         const { data, error } = await supabase
@@ -196,6 +199,7 @@ router.post('/updateProfile', async (req, res) => {
  */
 router.get('/loginEmail', async (req, res) => {
     try {
+        const supabase = createClient({ req, res });
         // Sign in with Supabase Auth
         const { data, error } = await supabase.auth.signInWithPassword({
             email: req.query.email,
@@ -239,6 +243,7 @@ router.get('/loginEmail', async (req, res) => {
  */
 router.get('/get', async (req, res) => {
     try {
+        const supabase = createClient({ req, res });
         const { user_id } = req.query;
         const { data, error } = await supabase
             .from('User')
@@ -255,6 +260,7 @@ router.get('/get', async (req, res) => {
 
 router.get('/getSongMatches', async (req, res) => {
     try {
+        const supabase = createClient({ req, res });
         const { user_id } = req.query;
 
         // Find matches for other users with the same favorite songs

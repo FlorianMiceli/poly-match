@@ -8,7 +8,8 @@ import { error as displayError } from './helpers/display'
 const baseURL = process.env.NODE_ENV === 'production' ? 'https://poly-match-backend.vercel.app' : 'http://localhost:8080'
 
 let backend = axios.create({
-    baseURL: baseURL
+    baseURL: baseURL,
+    withCredentials: true
 })
 
 async function apiCall (method: string, url: string, data?: any, params?: any) {

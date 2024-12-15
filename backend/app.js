@@ -37,10 +37,15 @@ const origin = process.env.NODE_ENV === "production" ? "https://poly-match.verce
 app.use(
     cors({
         origin: origin,
-        methods: "GET, POST, PUT, DELETE, OPTIONS",
-        allowedHeaders: "*",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+        exposedHeaders: ["set-cookie"],
+        credentials: true
     })
 );
+
+// Add cookie parser
+app.use(require('cookie-parser')());
 
 // Routes
 app.use("/test", require("./routes/test"));

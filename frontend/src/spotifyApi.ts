@@ -11,6 +11,7 @@ export async function refreshAccessToken() {
     try {
         const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
         const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
+        if(!clientId || !clientSecret) throw new Error("Client ID or Client Secret not found");
 
         const response = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
