@@ -269,7 +269,6 @@ router.get('/getSongMatches', async (req, res) => {
 
         if (error) throw error;
 
-        console.log(data)
         res.send(data);
     } catch (error) {
         console.log('Error /user/getSongMatches :', error);
