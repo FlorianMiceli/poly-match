@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { SongMatch } from '@/types/global_types';
+import type { SongMatch, User } from '@/types/global_types';
 import { DrawerTrigger } from "vaul-vue";
 import { getUser } from '@/helpers/userQueriesHelpers';
 
@@ -50,11 +50,8 @@ const { data: user, isLoading: isUserLoading } = getUser(props.match.user_id);
 
             <UserInfos 
                 v-else
-                :first_name="user.first_name"
-                :last_name="user.last_name"
-                :instagram_username="user.instagram_username"
-                :school_year="user.school_year"
-                :school_major="user.school_major"
+                :user="user as User"
+                :isUserProfile="false"
                 class="mt-4"
             />
             

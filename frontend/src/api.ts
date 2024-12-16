@@ -23,14 +23,14 @@ async function apiCall (method: string, url: string, data?: any, params?: any) {
         })
         .catch((error: any) => {
             let error_message = ''
-            if(error?.response?.data?.error_message){error_message = error?.response?.data?.error_message}
+            if(error?.response?.data?.error) error_message = error?.response?.data?.error;
+            else if(error?.response?.data?.error_message){error_message = error?.response?.data?.error_message}
             else if(error?.message?.error_message){error_message = error?.message?.error_message}
             else if(error?.statusText){error_message = error?.statusText}
             else if(error?.message){error_message = error?.message}
             else{error_message = 'Unknown error'}
             if(error_message !== 'Network Error') displayError('Error', error_message)
-            console.error(error_message)
-            console.error(error)
+            console.error(error_message,error)
             return { 
                 data: null, 
                 status: false,

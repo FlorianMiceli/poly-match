@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
-import { getAccessToken } from './helpers/spotifyQueriesHelpers';
-import { useRouter } from 'vue-router';
-const router = useRouter()
-getAccessToken()
+import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
+import { getAccessToken } from "./helpers/spotifyQueriesHelpers";
+import { useRouter } from "vue-router";
+const router = useRouter();
+getAccessToken();
 </script>
 
 <template>
@@ -12,7 +12,9 @@ getAccessToken()
         <header class="header flex flex-row justify-between">
             <div class="app-name">🚧🚧🚧</div>
             <Button v-if="router.currentRoute.value.path === '/home'" @click="router.push('/user')" variant="outline"> Mon compte</Button>
-            <Button v-if="router.currentRoute.value.path === '/user'" @click="router.push('/home')" variant="outline"> Matchs</Button>
+            <Button v-if="router.currentRoute.value.path === '/user'" @click="router.push('/home')" variant="outline">
+                <span class="bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent font-extrabold animate-pulse"> Matchs </span>
+            </Button>
         </header>
         <main class="main-content">
             <router-view />

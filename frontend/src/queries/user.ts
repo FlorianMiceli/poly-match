@@ -16,25 +16,6 @@ export const user = createQueryKeys('user', {
       return false
     }
   }),
-  get_profile_picture: (instagramUsername: string) => ({
-    queryKey: [instagramUsername],
-    queryFn: async () => {
-      // wip
-      
-      
-      const response = await apiGet('user/instagram/profile-picture2')
-      console.log(response.data)
-      // returned a jpeg as a base64 string
-      const binary = Buffer.from(response.data.image, 'base64');
-      console.log(binary)
-      const imgData = new Blob([binary], { type: 'image/jpeg' });
-      const link = URL.createObjectURL(imgData);
-      return link
-      const res = 'data:image/png;base64,' + response.data.image
-      console.log(res)
-      return res
-    }
-  }),
   profile: (user_id: string) => ({
     queryKey: [user_id],
     queryFn: async () => {
@@ -53,6 +34,13 @@ export const user = createQueryKeys('user', {
     queryKey: [user_id],
     queryFn: async () => {
       const response = await apiGet('user/getSongMatches', { user_id })
+      return response.data
+    }
+  }),
+  get_profile_picture: (user_id: string) => ({
+    queryKey: [user_id],
+    queryFn: async () => {
+      const response = await apiGet('user/profile-picture', { user_id })
       return response.data
     }
   })

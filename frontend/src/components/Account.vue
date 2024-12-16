@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { getProfile } from "@/helpers/userQueriesHelpers";
-import { User } from "@/types/global_types";
+import { getProfile, getProfilePicture } from "@/helpers/userQueriesHelpers";
+import type { User } from "@/types/global_types";
 import { Plus } from "lucide-vue-next";
 import { DrawerTrigger } from "vaul-vue";
 import { useUserStore } from "@/stores/user";
@@ -17,6 +17,7 @@ const props = defineProps<{
 
 
 const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
+const { isLoading: profilePictureLoading } = getProfilePicture(props.user.id);
 
 const logout = () => {
     userStore.user = null
@@ -34,7 +35,7 @@ const logout = () => {
     </div> -->
 
     <!-- Loader -->
-    <template v-if="profileLoading">
+    <template v-if="profileLoading || profilePictureLoading">
         <div class="pl-2">
             <ProfileLoader />
             <CardsLoader :cardsCount="3" />
@@ -43,11 +44,8 @@ const logout = () => {
     <template v-else>
         <!-- User infos -->
         <UserInfos 
-            :first_name="user.first_name"
-            :last_name="user.last_name"
-            :school_year="user.school_year"
-            :school_major="user.school_major"
-            :instagram_username="user.instagram_username"
+            :user="user"
+            :isUserProfile="isUserProfile"
         />
 
         <!-- Flex container for the three main sections -->

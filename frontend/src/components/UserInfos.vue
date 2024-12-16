@@ -1,35 +1,73 @@
 <script setup lang="ts">
-import { info } from '@/helpers/display';
-import { ArrowUpRight, Instagram } from 'lucide-vue-next';
+import { info } from "@/helpers/display";
+import { ArrowUpRight, Instagram, Pencil, Trash } from "lucide-vue-next";
+import type { User } from "@/types/global_types";
+import { getProfilePicture } from '@/helpers/userQueriesHelpers'
 
 const props = defineProps<{
-    first_name: string;
-    last_name: string;
-    school_year: string;
-    school_major: string | null;
-    instagram_username: string;
-}>()
+    user: User;
+    isUserProfile: boolean;
+}>();
+
+const { data: profilePictureUrl } = getProfilePicture(props.user.id);
 
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 const openInstagram = () => {
-    if(props.instagram_username) 
-        window.open(`https://www.instagram.com/${props.instagram_username}`, '_blank')
-    else info("Info", "Aucun compte Instagram renseigné")
-}
+    if (props.user.instagram_username) window.open(`https://www.instagram.com/${props.user.instagram_username}`, "_blank");
+    else info("Info", "Aucun compte Instagram renseigné");
+};
+
+const updateProfilePicture = () => {
+    console.log("updateProfilePicture");
+};
+
+const deleteProfilePicture = () => {
+    console.log("deleteProfilePicture");
+};
 </script>
 <template>
     <div class="flex flex-row items-center justify-between mb-4">
         <div class="flex flex-row items-center">
-            <Avatar class="mr-4 w-16 h-16 ml-2 my-1">
-                <AvatarImage src="" alt="@radix-vue" />
-                <AvatarFallback>{{ first_name[0].toUpperCase() }}{{ last_name[0].toUpperCase() }}</AvatarFallback>
-            </Avatar>
+            <!-- Clickable Avatar -->
+            <CustomDrawerDialog title="Photo de profil">
+                <!-- Avatar -->
+                <template #trigger>
+                    <Avatar class="mr-4 w-16 h-16 ml-2 my-1">
+                        <AvatarImage :src="profilePictureUrl ?? ''" alt="@radix-vue" />
+                        <AvatarFallback>{{ user.first_name[0].toUpperCase() }}{{ user.last_name[0].toUpperCase() }}</AvatarFallback>
+                    </Avatar>
+                </template>
+                <!-- Menu -->
+                <template #content>
+                    <div class="px-4 flex flex-col items-center">
+                        <img :src="profilePictureUrl ?? ''" :alt="user.first_name + ' ' + user.last_name" class="rounded-lg object-cover mb-2">
+                        <template v-if="isUserProfile">
+                            <Button class="mb-2 w-full" @click="updateProfilePicture">
+                                <Pencil class="mr-2 h-4 w-4" />
+                                Mettre à jour la photo de profil
+                            </Button>
+                            <Button class="mb-4 w-full" variant="destructive" @click="deleteProfilePicture">
+                                <Trash class="mr-2 h-4 w-4" />
+                                Supprimer la photo
+                            </Button>
+                        </template>
+                        <template v-else>
+                            <Button @click="openInstagram" variant="outline" class="mr-4">
+                                <Instagram />
+                                <ArrowUpRight class="ml-2" />
+                            </Button>
+                        </template>
+                    </div>
+                </template>
+            </CustomDrawerDialog>
+
+            <!-- Name & School -->
             <div class="text-xl font-medium">
-                {{ capitalizeFirstLetter(first_name) }} {{ capitalizeFirstLetter(last_name) }}
-                <div class="text-sm text-gray-500">{{ school_year }}{{ school_major ? ` - ${school_major}` : "" }}</div>
+                {{ capitalizeFirstLetter(user.first_name) }} {{ capitalizeFirstLetter(user.last_name) }}
+                <div class="text-sm text-gray-500">{{ user.school_year }}{{ user.school_major ? ` - ${user.school_major}` : "" }}</div>
             </div>
         </div>
-        <Button @click="openInstagram" variant="outline" class="mr-4">
+        <Button @click="openInstagram" variant="secondary" class="mr-4">
             <Instagram />
             <ArrowUpRight class="ml-2" />
         </Button>

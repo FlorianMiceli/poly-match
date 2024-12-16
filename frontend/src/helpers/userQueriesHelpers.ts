@@ -17,16 +17,6 @@ export const createAccount = (data: Ref<UserCreationForm | null>) => {
     })
 }
 
-export const getProfilePicture = (instagramUsername: string) => {
-    return useQuery({
-        ...queries.user.get_profile_picture(instagramUsername),
-        throwOnError: () => {
-            error("Erreur","Erreur lors de la récupération de l'image de profil, réessayez plus tard")
-            return true
-        },
-    })
-}
-
 export const getProfile = (user_id: string) => {
     return useQuery({
         ...queries.user.profile(user_id),
@@ -72,5 +62,12 @@ export const updateProfile = () => {
         onError: () => {
             queryClient.invalidateQueries({ queryKey: ['user', 'profile', userStore.user?.id] })
         }
+    })
+}
+
+export const getProfilePicture = (user_id: string) => {
+    return useQuery({
+        ...queries.user.get_profile_picture(user_id),
+        refetchOnMount: false
     })
 }
