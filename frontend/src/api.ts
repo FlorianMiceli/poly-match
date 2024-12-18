@@ -63,9 +63,10 @@ export async function apiDelete(url: string, data: any) {
     return await apiCall("delete", url, data);
 }
 
-export async function apiPostFile(url: string, file: File) {
+export async function apiPostFile(url: string, file: File, user_id: string) {
     const formData = new FormData()
     formData.append('file', file)
+    formData.append('user_id', user_id)
     return await backend
         .request({
             method: "post",

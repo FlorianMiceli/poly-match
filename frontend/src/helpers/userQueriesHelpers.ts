@@ -73,8 +73,9 @@ export const getProfilePicture = (user_id: string) => {
 
 export const updateProfilePicture = () => {
     const queryClient = useQueryClient();
+    const userStore = useUserStore();
     return useMutation({
-        mutationFn: async (profile_picture: File ) => await apiPostFile("user/updateProfilePicture", profile_picture),
+        mutationFn: async (profile_picture: File ) => await apiPostFile("user/updateProfilePicture", profile_picture, userStore.user?.id as string),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["user", "get_profile_picture"] })
     });
 };

@@ -303,11 +303,10 @@ router.get('/profile-picture', async (req, res) => {
 });
 
 router.post('/updateProfilePicture', upload.single('file'), async (req, res) => {
-    try {
-        const supabase = createClient({ req, res });
-        const file = req.file;
-        const user = await supabase.auth.getUser();
-        const user_id = user.data.user.id;
+  try {
+    const supabase = createClient({ req, res });
+    const { user_id } = req.body; // Get userId from request body
+    const file = req.file;
 
         // Convert the file buffer to Uint8Array which Supabase expects
         const fileBuffer = new Uint8Array(file.buffer);
