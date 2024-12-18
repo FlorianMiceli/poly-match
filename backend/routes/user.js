@@ -292,6 +292,7 @@ router.get('/profile-picture', async (req, res) => {
       .createSignedUrl(`${user_id}.jpg`, 3600); // URL valid for 1 hour
 
     if (error) {
+        console.log('Error getting profile picture:', error);
         res.send('')
         return
     }
