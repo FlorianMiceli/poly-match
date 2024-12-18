@@ -2,7 +2,7 @@
 import { info } from "@/helpers/display";
 import { ArrowUpRight, Instagram, Pencil, Trash, ImageOff as NoImage } from "lucide-vue-next";
 import type { User } from "@/types/global_types";
-import { getProfilePicture, updateProfilePicture } from "@/helpers/userQueriesHelpers";
+import { getProfilePicture, updateProfilePicture, deleteProfilePicture } from "@/helpers/userQueriesHelpers";
 import { processProfilePicture } from "@/helpers/processing";
 
 const props = defineProps<{
@@ -12,6 +12,7 @@ const props = defineProps<{
 
 const { data: profilePictureUrl } = getProfilePicture(props.user.id);
 const profilePictureMutation = updateProfilePicture()
+const profilePictureDelete = deleteProfilePicture()
 
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 const openInstagram = () => {
@@ -51,14 +52,22 @@ const handleProfilePictureUpdate = async () => {
                         <NoImage v-if="!profilePictureUrl" class="mb-4 w-24 h-24" />
                         <img v-else :src="profilePictureUrl" :alt="user.first_name + ' ' + user.last_name" class="rounded-lg object-cover mb-2" />
                         <template v-if="isUserProfile">
-                            <Button class="mb-2 w-full" @click="handleProfilePictureUpdate">
-                                <Pencil class="mr-2 h-4 w-4" />
-                                Mettre à jour
-                            </Button>
-                            <Button class="mb-4 w-full" variant="destructive" @click="profilePictureMutation.mutate(null)">
-                                <Trash class="mr-2 h-4 w-4" />
-                                Supprimer la photo
-                            </Button>
+                            <CustomButton 
+                                @click="handleProfilePictureUpdate" 
+                                variant="default" 
+                                :loading="profilePictureMutation.isPending"
+                                text="Mettre à jour"
+                            >
+                                <Pencil class="mr-2 h-4 w-4"/>
+                            </CustomButton>
+                            <CustomButton 
+                                text="Supprimer la photo" 
+                                :loading="profilePictureDelete.isPending" 
+                                variant="destructive" 
+                                @click="profilePictureDelete.mutate()" 
+                            >
+                                <Trash class="mr-2 h-4 w-4"/>
+                            </CustomButton>
                         </template>
                         <template v-else>
                             <Button @click="openInstagram" variant="outline" class="mb-4">

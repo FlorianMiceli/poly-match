@@ -73,14 +73,18 @@ export const getProfilePicture = (user_id: string) => {
 
 export const updateProfilePicture = () => {
     const queryClient = useQueryClient();
-    const userStore = useUserStore();
     return useMutation({
-        mutationFn: async (profile_picture: File | null) => {
-            if (profile_picture == null) return await apiPost("user/deleteProfilePicture", { user_id: userStore.user?.id });
-            return await apiPostFile("user/updateProfilePicture", profile_picture);
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["user", "get_profile_picture"] });
-        },
+        mutationFn: async (profile_picture: File ) => await apiPostFile("user/updateProfilePicture", profile_picture),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["user", "get_profile_picture"] })
     });
 };
+
+export const deleteProfilePicture = () => {
+    const queryClient = useQueryClient();
+    const userStore = useUserStore();
+    return useMutation({
+        mutationFn: async () => await apiPost("user/deleteProfilePicture", { user_id: userStore.user?.id }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["user", "get_profile_picture"] })
+    });
+};
+

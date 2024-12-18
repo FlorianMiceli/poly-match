@@ -291,8 +291,10 @@ router.get('/profile-picture', async (req, res) => {
       .from('profile_pictures')
       .createSignedUrl(`${user_id}.jpg`, 3600); // URL valid for 1 hour
 
-    if (error) res.send('')
-
+    if (error) {
+        res.send('')
+        return
+    }
     res.send(data.signedUrl);
   } catch (error) {
     console.error('Error getting profile picture:', error);
@@ -310,6 +312,7 @@ router.post('/updateProfilePicture', upload.single('file'), async (req, res) => 
         // Convert the file buffer to Uint8Array which Supabase expects
         const fileBuffer = new Uint8Array(file.buffer);
 
+        // Try to update first
         const { data, error } = await supabase
             .storage
             .from('profile_pictures')
@@ -318,20 +321,21 @@ router.post('/updateProfilePicture', upload.single('file'), async (req, res) => 
                 upsert: true
             });
             
-        if (error) {
-            if (error.message === "Object not found") {
-                const { data, error: uploadError } = await supabase
-                    .storage
-                    .from('profile_pictures')
-                    .upload(`${user_id}.jpg`, fileBuffer, {
-                        contentType: 'image/jpeg'
-                    });
-                if (uploadError) throw uploadError;
-                res.send(data);
-            } else throw error;
-        }
+        if (error && error.message === "Object not found") {
+            // If update fails because file doesn't exist, try uploading
+            const { data: uploadData, error: uploadError } = await supabase
+                .storage
+                .from('profile_pictures')
+                .upload(`${user_id}.jpg`, fileBuffer, {
+                    contentType: 'image/jpeg'
+                });
+            
+            if (uploadError) throw uploadError;
+        } else if (error) {
+            throw error;
+        } 
+        res.status(200).send('Profile picture updated');
         
-        res.send(data);
     } catch (error) {
         console.error('Error updating profile picture:', error);
         res.status(500).send({ error_message: error.message || 'Failed to update profile picture' });
