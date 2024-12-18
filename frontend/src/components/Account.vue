@@ -15,8 +15,7 @@ const props = defineProps<{
     isUserProfile: boolean;
 }>();
 
-
-const { data: profile, isLoading: profileLoading } = getProfile(props.user.id);
+const { data: profile, isLoading: profileLoading, isError: profileError } = getProfile(props.user.id);
 const { isLoading: profilePictureLoading } = getProfilePicture(props.user.id);
 
 const logout = () => {
@@ -26,20 +25,15 @@ const logout = () => {
 }
 </script>
 <template>
-
-    <!-- TODO -->
-    <!-- {{ profilePicture }}
-    <img v-if="profilePicture" :src="profilePicture" alt="JPEG Image">
-    <div>
-        <iframe v-if="profilePicture" :src="profilePicture" width="100%" height="500px"></iframe>
-    </div> -->
-
     <!-- Loader -->
     <template v-if="profileLoading || profilePictureLoading">
         <div class="pl-2">
             <ProfileLoader />
             <CardsLoader :cardsCount="3" />
         </div>
+    </template>
+    <template v-else-if="profileError || !profile">
+        <ErrorAlert title="Erreur" description="Impossible de récupérer les infos, tu peux essayer de recharger la page" />
     </template>
     <template v-else>
         <!-- User infos -->

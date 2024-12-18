@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { createClient } = require("../supabase.js");
+const multer = require('multer');
+const upload = multer({
+    storage: multer.memoryStorage()
+});
+const fs = require('fs');
 
 /**
  * @swagger
@@ -286,13 +291,70 @@ router.get('/profile-picture', async (req, res) => {
       .from('profile_pictures')
       .createSignedUrl(`${user_id}.jpg`, 3600); // URL valid for 1 hour
 
-    if (error) res.send('no_profile_picture')
+    if (error) res.send('')
 
     res.send(data.signedUrl);
   } catch (error) {
     console.error('Error getting profile picture:', error);
     res.status(500).send({ error_message: 'Failed to get profile picture' });
   }
+});
+
+router.post('/updateProfilePicture', upload.single('file'), async (req, res) => {
+    try {
+        const supabase = createClient({ req, res });
+        const file = req.file;
+        const user = await supabase.auth.getUser();
+        const user_id = user.data.user.id;
+
+        // Convert the file buffer to Uint8Array which Supabase expects
+        const fileBuffer = new Uint8Array(file.buffer);
+
+        const { data, error } = await supabase
+            .storage
+            .from('profile_pictures')
+            .update(`${user_id}.jpg`, fileBuffer, {
+                contentType: 'image/jpeg',
+                upsert: true
+            });
+            
+        if (error) {
+            if (error.message === "Object not found") {
+                const { data, error: uploadError } = await supabase
+                    .storage
+                    .from('profile_pictures')
+                    .upload(`${user_id}.jpg`, fileBuffer, {
+                        contentType: 'image/jpeg'
+                    });
+                if (uploadError) throw uploadError;
+                res.send(data);
+            } else throw error;
+        }
+        
+        res.send(data);
+    } catch (error) {
+        console.error('Error updating profile picture:', error);
+        res.status(500).send({ error_message: error.message || 'Failed to update profile picture' });
+    }
+});
+
+router.post('/deleteProfilePicture', async (req, res) => {
+    try {
+        const supabase = createClient({ req, res });
+        const { user_id } = req.body;
+
+        const { data, error } = await supabase
+            .storage
+            .from('profile_pictures')
+            .remove([`${user_id}.jpg`]);
+            
+        if (error) throw error;
+        
+        res.send(data);
+    } catch (error) {
+        console.error('Error deleting profile picture:', error);
+        res.status(500).send({ error_message: error.message || 'Failed to delete profile picture' });
+    }
 });
 
 module.exports = router

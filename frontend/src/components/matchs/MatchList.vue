@@ -4,8 +4,8 @@ import { getProfile, getSongMatches } from '@/helpers/userQueriesHelpers'
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore()
 
-const { data: profile, isLoading: isProfileLoading } = getProfile(userStore.user?.id as string)
-const { data: songMatches, isLoading: isSongMatchesLoading } = getSongMatches(userStore.user?.id as string, profile)
+const { data: profile, isLoading: isProfileLoading, isError: isProfileError } = getProfile(userStore.user?.id as string)
+const { data: songMatches, isLoading: isSongMatchesLoading, isError: isSongMatchesError } = getSongMatches(userStore.user?.id as string, profile)
 
 const sortedSongMatches = computed(() => 
     songMatches.value 
@@ -16,6 +16,9 @@ const sortedSongMatches = computed(() =>
 <template>
     <template v-if="isSongMatchesLoading || isProfileLoading">
         <CardsLoader :cardsCount="1"/>
+    </template>
+    <template v-else-if="isSongMatchesError || isProfileError || !profile || !songMatches">
+        <ErrorAlert title="Erreur" description="Impossible de récupérer les matchs, tu peux essayer de recharger la page" />
     </template>
     <template v-else>
         <div 
