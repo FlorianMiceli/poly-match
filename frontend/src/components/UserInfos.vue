@@ -4,6 +4,7 @@ import { ArrowUpRight, Instagram, Pencil, Trash, ImageOff as NoImage } from "luc
 import type { User } from "@/types/global_types";
 import { getProfilePicture, updateProfilePicture, deleteProfilePicture } from "@/helpers/userQueriesHelpers";
 import { processProfilePicture } from "@/helpers/processing";
+import { useFileDialog } from "@vueuse/core";
 
 const props = defineProps<{
     user: User;
@@ -14,24 +15,27 @@ const { data: profilePictureUrl } = getProfilePicture(props.user.id);
 const profilePictureMutation = updateProfilePicture()
 const profilePictureDelete = deleteProfilePicture()
 
+const profilePictureCompressionLoading = ref(false)
+
 const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 const openInstagram = () => {
     if (props.user.instagram_username) window.open(`https://www.instagram.com/${props.user.instagram_username}`, "_blank");
     else info("Info", "Aucun compte Instagram renseigné");
 };
 
-const handleProfilePictureUpdate = async () => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = 'image/*'
-    input.onchange = async (e) => {
-        const file = (e.target as HTMLInputElement).files?.[0]
-        if (!file) return
-        const compressedFile = await processProfilePicture(file)
-        profilePictureMutation.mutate(file as File) //TODO : change to compressedFile
-    }
-    input.click()
-};
+const { open: openFileDialog, onChange } = useFileDialog({
+    accept: 'image/*',
+    multiple: false,
+    capture: 'camera'
+})
+onChange(async (files) => {
+    if (!files) return
+    const file = files[0]
+    profilePictureCompressionLoading.value = true
+    const compressedFile = await processProfilePicture(file)
+    profilePictureCompressionLoading.value = false
+    profilePictureMutation.mutate(compressedFile as File)
+})
 
 </script>
 <template>
@@ -50,12 +54,12 @@ const handleProfilePictureUpdate = async () => {
                 <template #content>
                     <div class="px-4 flex flex-col items-center">
                         <NoImage v-if="!profilePictureUrl" class="mb-4 w-24 h-24" />
-                        <img v-else :src="profilePictureUrl" :alt="user.first_name + ' ' + user.last_name" class="rounded-lg object-cover mb-2" />
+                        <img v-else :src="profilePictureUrl" :alt="user.first_name + ' ' + user.last_name" class="rounded-lg object-cover mb-2 w-full md:w-auto md:max-h-[40vh]" />
                         <template v-if="isUserProfile">
                             <CustomButton 
-                                @click="handleProfilePictureUpdate" 
+                                @click="openFileDialog" 
                                 variant="default" 
-                                :loading="profilePictureMutation.isPending"
+                                :loading="profilePictureMutation.isPending || profilePictureCompressionLoading"
                                 text="Mettre à jour"
                             >
                                 <Pencil class="mr-2 h-4 w-4"/>
