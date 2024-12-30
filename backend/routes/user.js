@@ -293,7 +293,7 @@ router.get('/profile-picture', async (req, res) => {
 
     if (error) {
         console.log('Error getting profile picture:', error);
-        res.send('')
+        res.status(204).send('')
         return
     }
     res.send(data.signedUrl);
