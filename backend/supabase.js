@@ -12,7 +12,9 @@ exports.createClient = (context) => {
           const cookieOptions = {
             ...options,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
+            path: '/'
           }
           context.res.appendHeader('Set-Cookie', serializeCookieHeader(name, value, cookieOptions))
         })
